@@ -5,13 +5,24 @@ const pepperoni = "Pepperoni Pizza";
 const pizzaPrice = 80;
 
 //Put your Javscript code here:
+const pizzaList = document.getElementById("pizzaList");
 const availablePizzas = [vegetarian, hawaiian, pepperoni];
 
-const greeting = () => {
-  alert(
-    `Hey! Happy to serve your pizza. On our menu we have ${vegetarian}, ${hawaiian} and ${pepperoni}`
-  );
-};
+const pizzaForm = document.getElementById("pizzaForm");
+const pizzaInput = document.getElementById("pizzaInput");
+const numberInput = document.getElementById("numberInput");
+
+const addToOrderBtn = document.getElementById("addToOrder");
+
+const pizzaErrorEl = document.getElementById("pizzaError");
+const quantityErrorEl = document.getElementById("quantityError");
+
+const totalEl = document.getElementById("total");
+const etaEl = document.getElementById("eta");
+const popupEl = document.getElementById("popup");
+
+pizzaList.textContent = availablePizzas.join(", ");
+
 const checkOrderName = (orderName) => {
   return (
     orderName === vegetarian.toLowerCase() ||
@@ -32,35 +43,63 @@ const cookingTime = (orderQuantity) => {
   }
 };
 
-// Greet the customer
-greeting();
-// Ask the user which pizza they want, and quantity
-let orderName = prompt(
-  `Enter the name of the pizza you want to order today.`
-).toLowerCase();
+const processOrder = (orderConfirmation = false) => {
+  const orderName = pizzaInput.value.toLowerCase();
+  const orderQuantity = parseInt(numberInput.value, 10);
 
-while (true) {
-  // Check if the ordered pizza is on the menu
-  if (checkOrderName(orderName)) {
-    // Ask for the quantity of the ordered pizza
-    const orderQuantity = parseInt(
-      prompt(`How many of ${orderName} do you want?`),
-      10
-    );
-    // Calculate the total cost of the order
-    const orderTotal = totalCost(orderQuantity);
-    // Calculate the cooking time based on the quantity
-    const time = cookingTime(orderQuantity);
-    // Inform the user of their order details
-    alert(
-      `Great, I'll get started on your ${orderName} right away. It will cost ${orderTotal} kr. The pizzas will take ${time} minutes.`
-    );
-    break;
-  } else {
-    // Notify the user if the pizza is not on the menu
-    alert(`Sorry, we don't have that pizza on the menu.`);
-    orderName = prompt(
-      `Enter a pizza from the menu: ${availablePizzas}`
-    ).toLowerCase();
+  if (!checkOrderName(orderName)) {
+    pizzaErrorEl.style.visibility = "visible"; // Show error message
+    pizzaErrorEl.textContent = `Sorry, we don't have that pizza on the menu.`;
+    console.log("input error");
+
+    return;
   }
-}
+
+  if (isNaN(orderQuantity) || orderQuantity <= 0) {
+    quantityErrorEl.style.visibility = "visible"; // Show error message
+    quantityErrorEl.textContent = `Please enter a valid quantity greater than zero.`;
+    console.log("number error");
+    return;
+  }
+  pizzaErrorEl.style.visibility = "hidden";
+  quantityErrorEl.style.visibility = "hidden";
+  const orderTotal = totalCost(orderQuantity);
+  totalEl.textContent = `Total: ${orderTotal} kr`;
+  const time = cookingTime(orderQuantity);
+  etaEl.textContent = `ETA: ${time} minutes`;
+
+  if (orderConfirmation) {
+    popupEl.style.visibility = "visible"; // Show popup message
+    popupEl.textContent = `Great, I'll get started on your ${orderName} right away. It will cost ${orderTotal} kr. The pizzas will take ${time} minutes.`;
+  }
+};
+
+addToOrderBtn.addEventListener("click", function () {
+  processOrder(false);
+});
+
+pizzaForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  processOrder(true);
+});
+
+// Custom number input buttons functionality + & -
+const decreaseValue = () => {
+  const input = document.getElementById("numberInput");
+  let currentValue = parseInt(input.value, 10);
+  if (currentValue > 0) {
+    input.value = currentValue - 1;
+  }
+};
+
+const increaseValue = () => {
+  const input = document.getElementById("numberInput");
+  let currentValue = parseInt(input.value, 10);
+
+  // If input is empty, start at 0 when increasing
+  if (isNaN(currentValue)) {
+    input.value = 1;
+  } else {
+    input.value = currentValue + 1;
+  }
+};
