@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pizzabot</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Spinnaker&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Icons -->
+    <script
+      src="https://kit.fontawesome.com/839aa981e5.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <main>
+      <div class="top">
+        <h1>Pizza</h1>
+        <h2>
+          Hey! Happy to serve your pizza.<br />
+          On our menu we have
+        </h2>
+        <p id="pizzaList"></p>
+      </div>
+      <form action="" id="pizzaForm">
+        <div id="pizzaError" class="pizzaError"></div>
+        <input
+          type="text"
+          id="pizzaInput"
+          placeholder="Enter the name of the pizza"
+        />
+        <div id="quantityError" class="quantityError"></div>
+
+        <div class="input-container" id="inputContainer">
+          <button type="button" class="btn decrease" onclick="decreaseValue()">
+            -
+          </button>
+
+          <input type="number" id="numberInput" placeholder="How many?" />
+          <button type="button" class="btn increase" onclick="increaseValue()">
+            +
+          </button>
+        </div>
+
+        <button type="button" id="addToOrder" class="blueBtn">
+          Add to order
+        </button>
+        <div class="order-summary">
+          <p id="total" class="order-total"></p>
+          <p id="eta" class="order-eta"></p>
+        </div>
+        <button type="submit" class="redBtn">Place order</button>
+      </form>
+      <div id="popup"></div>
+    </main>
     <script src="./pizzabot.js" charset="utf-8"></script>
-    Edit pizzabot.js to complete this assignment.
   </body>
 </html>
