@@ -5,6 +5,8 @@ const pepperoni = "Pepperoni Pizza";
 const pizzaPrice = 80;
 
 //Put your Javscript code here:
+const availablePizzas = [vegetarian, hawaiian, pepperoni];
+
 const greeting = () => {
   alert(
     `Hey! Happy to serve your pizza. On our menu we have ${vegetarian}, ${hawaiian} and ${pepperoni}`
@@ -33,26 +35,32 @@ const cookingTime = (orderQuantity) => {
 // Greet the customer
 greeting();
 // Ask the user which pizza they want, and quantity
-const orderName = prompt(
+let orderName = prompt(
   `Enter the name of the pizza you want to order today.`
 ).toLowerCase();
 
-// Check if the ordered pizza is on the menu
-if (checkOrderName(orderName)) {
-  // Ask for the quantity of the ordered pizza
-  const orderQuantity = parseInt(
-    prompt(`How many of ${orderName} do you want?`),
-    10
-  );
-  // Calculate the total cost of the order
-  const orderTotal = totalCost(orderQuantity);
-  // Calculate the cooking time based on the quantity
-  const time = cookingTime(orderQuantity);
-  // Inform the user of their order details
-  alert(
-    `Great, I'll get started on your ${orderName} right away. It will cost ${orderTotal} kr. The pizzas will take ${time} minutes.`
-  );
-} else {
-  // Notify the user if the pizza is not on the menu
-  alert(`Sorry, we don't have that pizza on the menu.`);
+while (true) {
+  // Check if the ordered pizza is on the menu
+  if (checkOrderName(orderName)) {
+    // Ask for the quantity of the ordered pizza
+    const orderQuantity = parseInt(
+      prompt(`How many of ${orderName} do you want?`),
+      10
+    );
+    // Calculate the total cost of the order
+    const orderTotal = totalCost(orderQuantity);
+    // Calculate the cooking time based on the quantity
+    const time = cookingTime(orderQuantity);
+    // Inform the user of their order details
+    alert(
+      `Great, I'll get started on your ${orderName} right away. It will cost ${orderTotal} kr. The pizzas will take ${time} minutes.`
+    );
+    break;
+  } else {
+    // Notify the user if the pizza is not on the menu
+    alert(`Sorry, we don't have that pizza on the menu.`);
+    orderName = prompt(
+      `Enter a pizza from the menu: ${availablePizzas}`
+    ).toLowerCase();
+  }
 }
