@@ -50,15 +50,12 @@ const processOrder = (orderConfirmation = false) => {
   if (!checkOrderName(orderName)) {
     pizzaErrorEl.style.visibility = "visible"; // Show error message
     pizzaErrorEl.textContent = `Sorry, we don't have that pizza on the menu.`;
-    console.log("input error");
-
     return;
   }
 
   if (isNaN(orderQuantity) || orderQuantity <= 0) {
     quantityErrorEl.style.visibility = "visible"; // Show error message
     quantityErrorEl.textContent = `Please enter a valid quantity greater than zero.`;
-    console.log("number error");
     return;
   }
   pizzaErrorEl.style.visibility = "hidden";
